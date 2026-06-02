@@ -120,6 +120,25 @@
     loadSongs();
   });
 
+  const $wipeBtn = document.getElementById("wipe-btn");
+  const $wipeMsg = document.getElementById("wipe-msg");
+  $wipeBtn.addEventListener("click", async () => {
+    if (!confirm("Delete every song, lyric, and vote? This cannot be undone.")) return;
+    $wipeBtn.disabled = true;
+    $wipeMsg.textContent = "Wiping…";
+    try {
+      const r = await fetch("/api/admin/wipe", { method: "POST" });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      $wipeMsg.textContent = "Wiped.";
+      loadStatus();
+      loadSongs();
+    } catch (err) {
+      $wipeMsg.textContent = "Failed: " + err.message;
+    } finally {
+      $wipeBtn.disabled = false;
+    }
+  });
+
   $songsBody.addEventListener("click", async (e) => {
     const id = e.target.dataset.refetch;
     if (!id) return;

@@ -2,7 +2,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Neue Haas Grotesk Text Pro", "Hanken Grotesk", Roboto, Arial, sans-serif;
   background: #fff;
   color: #111;
   -webkit-text-size-adjust: 100%;
@@ -172,7 +172,7 @@ main {
   padding: 8px 14px 32px;
   margin: 0;
   white-space: pre-wrap;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Neue Haas Grotesk Text Pro", "Hanken Grotesk", Roboto, Arial, sans-serif;
   font-size: 19px;
   line-height: 1.45;
 }

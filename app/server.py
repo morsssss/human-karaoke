@@ -36,14 +36,14 @@ def karaoke_static(filename):
     return send_from_directory(os.path.join(STATIC_DIR, "karaoke"), filename)
 
 
-@app.route("/admin")
-def admin_root():
-    return send_from_directory(os.path.join(STATIC_DIR, "admin"), "index.html")
+@app.route("/captain")
+def captain_root():
+    return send_from_directory(os.path.join(STATIC_DIR, "captain"), "index.html")
 
 
-@app.route("/admin/<path:filename>")
-def admin_static(filename):
-    return send_from_directory(os.path.join(STATIC_DIR, "admin"), filename)
+@app.route("/captain/<path:filename>")
+def captain_static(filename):
+    return send_from_directory(os.path.join(STATIC_DIR, "captain"), filename)
 
 
 # ---------- API: songs ----------
@@ -198,6 +198,17 @@ def refetch_one(song_id):
         ]
     started = csv_import.kick_off_refresh(pairs, emit)
     return jsonify({"started": started})
+
+
+@app.route("/api/admin/wipe", methods=["POST"])
+def wipe_db():
+    with db.get_conn() as conn:
+        conn.execute("DELETE FROM songs")
+        conn.execute("DELETE FROM state")
+        conn.commit()
+    emit("current_changed", {"current_song_id": None, "song": None})
+    emit("songs_changed", {})
+    return jsonify({"ok": True})
 
 
 @app.route("/api/admin/status")
