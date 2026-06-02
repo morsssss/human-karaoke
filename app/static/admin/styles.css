@@ -1,0 +1,115 @@
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #111;
+  background: #f4f4f6;
+}
+.app-header {
+  background: #a51c30;
+  color: #fff;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 18px;
+}
+main {
+  max-width: 900px;
+  margin: 16px auto;
+  padding: 0 12px 32px;
+}
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.muted { color: #666; font-size: 14px; }
+code {
+  background: #eee; padding: 1px 4px; border-radius: 3px;
+  font-size: 13px;
+}
+
+button {
+  background: #a51c30;
+  color: #fff;
+  border: 0;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.secondary {
+  background: #eee; color: #333;
+}
+
+input[type="file"] {
+  margin-right: 8px;
+}
+input[type="search"] {
+  padding: 6px 8px;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+.status-summary {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  font-size: 14px; margin-bottom: 8px;
+}
+.status-summary .pill {
+  background: #eee; padding: 4px 10px; border-radius: 999px;
+}
+.status-summary .pill.found  { background: #d8efd8; color: #145a32; }
+.status-summary .pill.not_found { background: #fce6c2; color: #7a4f0e; }
+.status-summary .pill.error  { background: #f7d7d7; color: #7a1d1d; }
+.status-summary .pill.pending { background: #d8e3f7; color: #1d3a7a; }
+
+.progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0 4px;
+}
+#progress-fill {
+  height: 100%;
+  background: #a51c30;
+  width: 0;
+  transition: width 0.3s;
+}
+
+table.songs {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+table.songs th, table.songs td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+table.songs th { background: #fafafa; }
+.status-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #eee;
+}
+.status-tag.found     { background: #d8efd8; color: #145a32; }
+.status-tag.not_found { background: #fce6c2; color: #7a4f0e; }
+.status-tag.error     { background: #f7d7d7; color: #7a1d1d; }
+.status-tag.pending   { background: #d8e3f7; color: #1d3a7a; }
+
+button.mini { padding: 2px 8px; font-size: 12px; }

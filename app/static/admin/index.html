@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HR91 Karaoke — Admin</title>
+  <link rel="stylesheet" href="/admin/styles.css">
+</head>
+<body>
+  <header class="app-header">HR91 Human Karaoke — Admin</header>
+
+  <main>
+    <section class="card">
+      <h2>Upload CSV</h2>
+      <p class="muted">CSV must include columns <code>artist</code> and <code>song</code> (or <code>title</code>). Uploading replaces the song list. Lyrics for songs that already exist are kept; new songs get fetched from Genius.</p>
+      <form id="upload-form">
+        <input type="file" id="file" accept=".csv,text/csv" required>
+        <button type="submit" id="upload-btn">Upload &amp; refresh</button>
+      </form>
+      <div id="upload-msg" class="muted"></div>
+    </section>
+
+    <section class="card">
+      <h2>Status</h2>
+      <div id="status-summary" class="status-summary"></div>
+      <div id="progress" class="progress" hidden>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <div id="progress-label" class="muted"></div>
+      </div>
+      <div class="row">
+        <button id="refresh-btn">Re-fetch missing lyrics</button>
+        <button id="reload-btn">Reload</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Songs</h2>
+      <input id="filter" type="search" placeholder="Filter songs">
+      <table class="songs">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Lyrics</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="songs-body"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="/admin/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#a51c30">
+  <title>HR91 Human Karaoke</title>
+  <link rel="stylesheet" href="/karaoke/styles.css">
+</head>
+<body>
+  <div class="top-bar">
+    <header class="app-header">HR91 Human Karaoke</header>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="songs" role="tab">Songs</button>
+      <button class="tab" data-tab="votes" role="tab">Votes</button>
+      <button class="tab" data-tab="lyrics" role="tab">Lyrics</button>
+    </nav>
+  </div>
+
+  <main>
+    <section class="pane active" id="pane-songs">
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="Search artist or song" autocomplete="off">
+      </div>
+      <ul class="song-list" id="song-list"></ul>
+      <div class="empty" id="songs-empty" hidden>No songs yet. Ask the host to upload a setlist.</div>
+    </section>
+
+    <section class="pane" id="pane-votes">
+      <ul class="vote-list" id="vote-list"></ul>
+      <div class="empty" id="votes-empty">No votes yet.</div>
+    </section>
+
+    <section class="pane" id="pane-lyrics">
+      <div id="lyrics-meta" class="lyrics-meta"></div>
+      <pre id="lyrics-body" class="lyrics-body"></pre>
+      <div class="empty" id="lyrics-empty">No song selected yet.</div>
+    </section>
+  </main>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="/karaoke/app.js"></script>
+</body>
+</html>
