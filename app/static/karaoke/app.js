@@ -1,16 +1,19 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
-  const isAdmin = params.has("admin");
-  if (isAdmin) {
-    document.body.classList.add("is-admin");
+  const isCaptain = params.has("captain");
+  if (isCaptain) {
+    document.body.classList.add("is-captain");
     const header = document.querySelector(".app-header");
     if (header) {
       const badge = document.createElement("span");
-      badge.className = "admin-badge";
-      badge.textContent = "ADMIN";
+      badge.className = "captain-badge";
+      badge.textContent = "CAPTAIN";
       header.appendChild(badge);
     }
   }
+
+  // Phosphor "piano-keys" (duotone), tweaked: currentColor + 22px.
+  const PROMOTE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><path d="M184,40V144H144V40ZM72,144h40V40H72Z" opacity="0.2"></path><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM80,48h24v88H80Zm32,104a8,8,0,0,0,8-8V48h16v96a8,8,0,0,0,8,8h8v56H104V152Zm40-16V48h24v88ZM48,48H64v96a8,8,0,0,0,8,8H88v56H48ZM208,208H168V152h16a8,8,0,0,0,8-8V48h16V208Z"></path></svg>`;
 
   // ---- State ----
   let songs = [];               // [{id,artist,title,votes,lyrics_status}]
@@ -89,8 +92,8 @@
           `<span class="count">${s.votes}</span>` +
           `<span class="artist">${escapeHtml(s.artist)}</span>` +
           `<span class="title">${escapeHtml(s.title)}</span>` +
-          (isAdmin
-            ? `<button class="promote" data-promote="${s.id}" aria-label="Make this the current song">👍</button>`
+          (isCaptain
+            ? `<button class="promote" data-promote="${s.id}" aria-label="Make this the current song">${PROMOTE_ICON}</button>`
             : "") +
           `</li>`
       )
@@ -151,7 +154,7 @@
   });
 
   $voteList.addEventListener("click", async (e) => {
-    if (!isAdmin) return;
+    if (!isCaptain) return;
     const btn = e.target.closest("button[data-promote]");
     if (!btn) return;
     const id = Number(btn.dataset.promote);

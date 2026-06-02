@@ -87,7 +87,20 @@ def clean_lyrics(text: str) -> str:
         flags=re.DOTALL,
     )
 
-    # 4) Trailing "<N>Embed" tag — often glued onto the final lyric line.
+    # 4) Concert/ticket ad block, e.g. "See A Flock of Seagulls LiveGet
+    #    tickets as low as $40". The two phrases are usually glued together
+    #    with no separator because they're adjacent HTML elements.
+    text = re.sub(
+        r"See [^\n]{1,80}?\s*Live\s*Get tickets[^\n]{0,80}?\$\d[\d.,]*",
+        "",
+        text,
+    )
+
+    # 5) Defensive sweep: stray "<N> Contributors" tokens that survived step 1
+    #    (e.g. if "Lyrics" wasn't found in the first 800 chars).
+    text = re.sub(r"\b\d+\s*Contributors?\b", "", text)
+
+    # 6) Trailing "<N>Embed" tag — often glued onto the final lyric line.
     text = re.sub(r"\s*\d*\s*Embed\s*$", "", text)
 
     # 5) Old single-line cleanup: drop any leftover line that ends with "Lyrics"

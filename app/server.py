@@ -36,14 +36,14 @@ def karaoke_static(filename):
     return send_from_directory(os.path.join(STATIC_DIR, "karaoke"), filename)
 
 
-@app.route("/captain")
-def captain_root():
-    return send_from_directory(os.path.join(STATIC_DIR, "captain"), "index.html")
+@app.route("/admin")
+def admin_root():
+    return send_from_directory(os.path.join(STATIC_DIR, "admin"), "index.html")
 
 
-@app.route("/captain/<path:filename>")
-def captain_static(filename):
-    return send_from_directory(os.path.join(STATIC_DIR, "captain"), filename)
+@app.route("/admin/<path:filename>")
+def admin_static(filename):
+    return send_from_directory(os.path.join(STATIC_DIR, "admin"), filename)
 
 
 # ---------- API: songs ----------
