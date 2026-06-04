@@ -120,6 +120,23 @@
     loadSongs();
   });
 
+  const $resetVotesBtn = document.getElementById("reset-votes-btn");
+  const $resetVotesMsg = document.getElementById("reset-votes-msg");
+  $resetVotesBtn.addEventListener("click", async () => {
+    if (!confirm("Reset every song's vote count to 0? Connected phones will lose their ✅ checkmarks.")) return;
+    $resetVotesBtn.disabled = true;
+    $resetVotesMsg.textContent = "Resetting…";
+    try {
+      const r = await fetch("/api/admin/reset-votes", { method: "POST" });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      $resetVotesMsg.textContent = "Votes reset.";
+    } catch (err) {
+      $resetVotesMsg.textContent = "Failed: " + err.message;
+    } finally {
+      $resetVotesBtn.disabled = false;
+    }
+  });
+
   const $wipeBtn = document.getElementById("wipe-btn");
   const $wipeMsg = document.getElementById("wipe-msg");
   $wipeBtn.addEventListener("click", async () => {

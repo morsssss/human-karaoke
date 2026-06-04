@@ -244,6 +244,12 @@
     loadSongs();
     loadCurrent();
   });
+  socket.on("votes_reset", () => {
+    // Admin started a new session — clear checkmarks and refresh counts.
+    votedIds = new Set();
+    saveVotedIds();
+    loadSongs();
+  });
 
   loadSongs();
   loadCurrent();

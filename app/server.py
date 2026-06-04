@@ -212,6 +212,15 @@ def refetch_one(song_id):
     return jsonify({"started": started})
 
 
+@app.route("/api/admin/reset-votes", methods=["POST"])
+def reset_votes():
+    with db.get_conn() as conn:
+        conn.execute("UPDATE songs SET votes=0")
+        conn.commit()
+    emit("votes_reset", {})
+    return jsonify({"ok": True})
+
+
 @app.route("/api/admin/wipe", methods=["POST"])
 def wipe_db():
     with db.get_conn() as conn:
