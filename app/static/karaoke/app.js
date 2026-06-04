@@ -138,7 +138,7 @@
     } else if (lyrics_status === "pending") {
       $lyricsBody.textContent = "Fetching lyrics…";
     } else if (lyrics_status === "not_found") {
-      $lyricsBody.textContent = "Lyrics not found.";
+      $lyricsBody.textContent = "Oh noes! We couldn't find the lyrics. But surely you have this memorized.";
     } else if (lyrics_status === "error") {
       $lyricsBody.textContent = "Could not fetch lyrics" + (lyrics_error ? `: ${lyrics_error}` : "");
     } else {
@@ -167,16 +167,22 @@
     if (!li) return;
     const id = Number(li.dataset.id);
     if (votedIds.has(id)) return; // already voted from this device
+
+    // Optimistic UI: flip to the "voted" state immediately so the row
+    // doesn't flash back to its original color while the POST is in flight
+    // on slower connections. Roll back if the server rejects.
+    li.classList.add("voted");
+    votedIds.add(id);
+    saveVotedIds();
     try {
       const r = await fetch(`/api/songs/${id}/vote`, { method: "POST" });
-      if (r.ok) {
-        votedIds.add(id);
-        saveVotedIds();
-        li.classList.add("voted");
-      }
-      // Server will also broadcast 'vote' for the count update
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      // Server will also broadcast 'vote' for the count update.
     } catch (err) {
       console.error(err);
+      li.classList.remove("voted");
+      votedIds.delete(id);
+      saveVotedIds();
     }
   });
 
