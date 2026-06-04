@@ -22,6 +22,26 @@
   let searchTerm = "";
   let activeTab = "songs";
 
+  // Per-device record of which songs *this* phone has voted on, so we can
+  // give tactile feedback (tint + ✅) without the server having to know.
+  const VOTED_KEY = "hr91.votedIds";
+  function loadVotedIds() {
+    try {
+      const raw = localStorage.getItem(VOTED_KEY);
+      return new Set(raw ? JSON.parse(raw) : []);
+    } catch (e) {
+      return new Set();
+    }
+  }
+  function saveVotedIds() {
+    try {
+      localStorage.setItem(VOTED_KEY, JSON.stringify([...votedIds]));
+    } catch (e) {
+      /* localStorage full or disabled — feedback degrades to in-memory only */
+    }
+  }
+  let votedIds = loadVotedIds();
+
   // ---- DOM ----
   const $search = document.getElementById("search");
   const $songList = document.getElementById("song-list");
@@ -72,7 +92,8 @@
     $songList.innerHTML = filtered
       .map(
         (s) =>
-          `<li data-id="${s.id}">` +
+          `<li data-id="${s.id}"${votedIds.has(s.id) ? ' class="voted"' : ""}>` +
+          `<span class="check"></span>` +
           `<span class="artist">${escapeHtml(s.artist)}</span>` +
           `<span class="title">${escapeHtml(s.title)}</span>` +
           `</li>`
@@ -145,9 +166,15 @@
     const li = e.target.closest("li[data-id]");
     if (!li) return;
     const id = Number(li.dataset.id);
+    if (votedIds.has(id)) return; // already voted from this device
     try {
-      await fetch(`/api/songs/${id}/vote`, { method: "POST" });
-      // Server will broadcast 'vote'
+      const r = await fetch(`/api/songs/${id}/vote`, { method: "POST" });
+      if (r.ok) {
+        votedIds.add(id);
+        saveVotedIds();
+        li.classList.add("voted");
+      }
+      // Server will also broadcast 'vote' for the count update
     } catch (err) {
       console.error(err);
     }
@@ -204,6 +231,10 @@
     renderLyrics();
   });
   socket.on("songs_changed", () => {
+    // Song IDs may no longer mean what they used to (CSV reupload, wipe).
+    // Drop the per-device voted record so checkmarks don't lie.
+    votedIds = new Set();
+    saveVotedIds();
     loadSongs();
     loadCurrent();
   });

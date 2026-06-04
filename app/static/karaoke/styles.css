@@ -99,14 +99,26 @@ main {
 }
 .song-list li {
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  grid-template-columns: 1.5em 1fr 1.4fr;
   gap: 12px;
-  align-items: baseline;
+  align-items: center;
   padding: 12px 14px;
   border-bottom: 1px solid #eee;
   font-size: 17px;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(165,28,48,0.15);
+}
+.song-list .check {
+  font-size: 15px;
+  line-height: 1;
+  text-align: center;
+}
+.song-list li.voted {
+  background: rgba(165, 28, 48, 0.09);
+  pointer-events: none;
+}
+.song-list li.voted .check::before {
+  content: "✅";
 }
 .vote-list li {
   display: grid;
@@ -144,7 +156,7 @@ main {
   border-color: #999;
 }
 .song-list li:active {
-  background: #f7e8ec;
+  background: rgba(165, 28, 48, 0.14);
 }
 .song-list .artist, .vote-list .artist {
   font-weight: normal;
