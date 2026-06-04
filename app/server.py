@@ -46,6 +46,18 @@ def admin_static(filename):
     return send_from_directory(os.path.join(STATIC_DIR, "admin"), filename)
 
 
+@app.route("/favicon.svg")
+def favicon_svg():
+    return send_from_directory(STATIC_DIR, "favicon.svg")
+
+
+@app.route("/favicon.ico")
+def favicon_ico():
+    # Browsers auto-probe /favicon.ico. Modern browsers accept the SVG
+    # response just fine; older ones get a 200 but may ignore it.
+    return send_from_directory(STATIC_DIR, "favicon.svg", mimetype="image/svg+xml")
+
+
 # ---------- API: songs ----------
 
 def _serialize_song(row, include_lyrics=False):
