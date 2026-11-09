@@ -24,7 +24,7 @@
 
   // Per-device record of which songs *this* phone has voted on, so we can
   // give tactile feedback (tint + ✅) without the server having to know.
-  const VOTED_KEY = "hr91.votedIds";
+  const VOTED_KEY = "humankaraoke.votedIds";
   function loadVotedIds() {
     try {
       const raw = localStorage.getItem(VOTED_KEY);
