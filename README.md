@@ -2,6 +2,8 @@
 
 Human Karaoke is a web app to run an audience-powered karaoke party, where everyone can vote for the songs the group sings!
 
+![Screenshot of the app, showing song titles](./screenshot.png)
+
 ## How to use it
 
 Everyone opens the app on their devices. They see three tabs:
